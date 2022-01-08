@@ -13,7 +13,8 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public Text HighscoreText;
     public GameObject GameOverText;
-    
+    public GameObject CongratulationsText;
+
     private bool m_Started = false;
     private int m_Points;
     
@@ -67,7 +68,7 @@ public class MainManager : MonoBehaviour
 
     void DisplayHighscore()
     {
-        HighscoreText.text = $"Best Score :\n" +
+        HighscoreText.text = $"Highest scores:\n\n" +
             $"{GameManager.instance.highestScorer[0]} : {GameManager.instance.highscore[0]}\n" +
             $"{GameManager.instance.highestScorer[1]} : {GameManager.instance.highscore[1]}\n" +
             $"{GameManager.instance.highestScorer[2]} : {GameManager.instance.highscore[2]}\n";
@@ -82,7 +83,6 @@ public class MainManager : MonoBehaviour
     public void GameOver()
     {
         m_GameOver = true;
-        GameOverText.SetActive(true);
         if (m_Points > GameManager.instance.highscore[2])
         {
             // On highscore list
@@ -91,6 +91,7 @@ public class MainManager : MonoBehaviour
                 if (m_Points > GameManager.instance.highscore[0])
                 {
                     // Place 1
+                    CongratulationsText.SetActive(true);
                     GameManager.instance.highscore[2] = GameManager.instance.highscore[1];
                     GameManager.instance.highestScorer[2] = GameManager.instance.highestScorer[1];
                     GameManager.instance.highscore[1] = GameManager.instance.highscore[0];
@@ -101,6 +102,7 @@ public class MainManager : MonoBehaviour
                 else
                 {
                     // Place 2
+                    GameOverText.SetActive(true);
                     GameManager.instance.highscore[2] = GameManager.instance.highscore[1];
                     GameManager.instance.highestScorer[2] = GameManager.instance.highestScorer[1];
                     GameManager.instance.highscore[1] = m_Points;
@@ -111,11 +113,16 @@ public class MainManager : MonoBehaviour
             else
             {
                 // Place 3
+                GameOverText.SetActive(true);
                 GameManager.instance.highscore[2] = m_Points;
                 GameManager.instance.highestScorer[2] = GameManager.instance.playerName;
             }
             DisplayHighscore();
             GameManager.instance.SaveHighscore();
+        }
+        else
+        {
+            GameOverText.SetActive(true);
         }
     }
 }

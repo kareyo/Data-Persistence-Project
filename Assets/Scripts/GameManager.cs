@@ -55,12 +55,12 @@ public class GameManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(savedScore);
 
-        File.WriteAllText(Application.persistentDataPath + "/brickgame_savefile.json", json);
+        File.WriteAllText(Application.persistentDataPath + "/brickgame_savefile3.json", json);
     }
 
     public void LoadHighscore()
     {
-        string path = Application.persistentDataPath + "/brickgame_savefile.json";
+        string path = Application.persistentDataPath + "/brickgame_savefile3.json";
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
