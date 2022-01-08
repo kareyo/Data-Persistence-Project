@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,4 +30,37 @@ public class GameManager : MonoBehaviour
     {
         
     }
+
+    [System.Serializable]
+    class Highscore
+    {
+        public string name;
+        public int score;
+    }
+
+    public void SaveHighscore()
+    {
+        Highscore savedScore = new Highscore();
+        savedScore.score = highscore;
+        savedScore.name = highestScorer;
+        
+        string json = JsonUtility.ToJson(savedScore);
+
+        File.WriteAllText(Application.persistentDataPath + "/brickgame_savefile.json", json);
+    }
+
+    public void LoadHighscore()
+    {
+        string path = Application.persistentDataPath + "/brickgame_savefile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            Highscore savedScore = JsonUtility.FromJson<Highscore>(json);
+
+            highscore = savedScore.score;
+            highestScorer = savedScore.name;
+        }
+
+    }
+
 }

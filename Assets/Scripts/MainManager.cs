@@ -37,6 +37,7 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        GameManager.instance.LoadHighscore();
         DisplayHighscore();
     }
 
@@ -84,6 +85,7 @@ public class MainManager : MonoBehaviour
             GameManager.instance.highscore = m_Points;
             GameManager.instance.highestScorer = GameManager.instance.playerName;
             DisplayHighscore();
+            GameManager.instance.SaveHighscore();
         }
     }
 }
