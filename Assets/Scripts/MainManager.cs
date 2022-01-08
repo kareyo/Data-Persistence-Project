@@ -67,7 +67,10 @@ public class MainManager : MonoBehaviour
 
     void DisplayHighscore()
     {
-        HighscoreText.text = $"Best Score : {GameManager.instance.highestScorer} : {GameManager.instance.highscore}";
+        HighscoreText.text = $"Best Score :\n" +
+            $"{GameManager.instance.highestScorer[0]} : {GameManager.instance.highscore[0]}\n" +
+            $"{GameManager.instance.highestScorer[1]} : {GameManager.instance.highscore[1]}\n" +
+            $"{GameManager.instance.highestScorer[2]} : {GameManager.instance.highscore[2]}\n";
     }
 
     void AddPoint(int point)
@@ -80,10 +83,37 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
-        if (m_Points > GameManager.instance.highscore)
+        if (m_Points > GameManager.instance.highscore[2])
         {
-            GameManager.instance.highscore = m_Points;
-            GameManager.instance.highestScorer = GameManager.instance.playerName;
+            // On highscore list
+            if (m_Points > GameManager.instance.highscore[1])
+            {
+                if (m_Points > GameManager.instance.highscore[0])
+                {
+                    // Place 1
+                    GameManager.instance.highscore[2] = GameManager.instance.highscore[1];
+                    GameManager.instance.highestScorer[2] = GameManager.instance.highestScorer[1];
+                    GameManager.instance.highscore[1] = GameManager.instance.highscore[0];
+                    GameManager.instance.highestScorer[1] = GameManager.instance.highestScorer[0];
+                    GameManager.instance.highscore[0] = m_Points;
+                    GameManager.instance.highestScorer[0] = GameManager.instance.playerName;
+                }
+                else
+                {
+                    // Place 2
+                    GameManager.instance.highscore[2] = GameManager.instance.highscore[1];
+                    GameManager.instance.highestScorer[2] = GameManager.instance.highestScorer[1];
+                    GameManager.instance.highscore[1] = m_Points;
+                    GameManager.instance.highestScorer[1] = GameManager.instance.playerName;
+
+                }
+            }
+            else
+            {
+                // Place 3
+                GameManager.instance.highscore[2] = m_Points;
+                GameManager.instance.highestScorer[2] = GameManager.instance.playerName;
+            }
             DisplayHighscore();
             GameManager.instance.SaveHighscore();
         }
